@@ -1,0 +1,80 @@
+import java.util.Scanner;
+
+public class MarksProcessor {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int count = 0;
+        int sum = 0;
+        int highest = Integer.MIN_VALUE;
+        int passes = 0;
+        int failures = 0;
+
+        System.out.println("Enter marks one at a time (0-100). Enter -1 to stop:");
+
+        while (true) {
+            System.out.print("Enter mark: ");
+            int mark = scanner.nextInt();
+
+            
+            if (mark == -1) {
+                break;
+            }
+
+            if (!isValidMark(mark)) {
+                System.out.println("Invalid mark (" + mark + "). Must be 0-100. Ignored.");
+                continue;
+            }
+
+        
+            count++;
+            sum += mark;
+            if (mark > highest) {
+                highest = mark;
+            }
+            if (mark >= 50) {
+                passes++;
+            } else {
+                failures++;
+            }
+        }
+
+        printResults(count, sum, highest, passes, failures);
+
+        scanner.close();
+    }
+
+  
+    public static boolean isValidMark(int mark) {
+        return mark >= 0 && mark <= 100;
+    }
+
+    
+    public static double calculateAverage(int sum, int count) {
+        if (count == 0) {
+            return 0.0;
+        }
+        return (double) sum / count;
+    }
+
+    
+    public static void printResults(int count, int sum, int highest, int passes, int failures) {
+        System.out.println("\n----- Results -----");
+        System.out.println("Number of valid marks entered: " + count);
+
+        if (count == 0) {
+            System.out.println("No valid marks were entered. Sum, average, and highest are undefined.");
+            System.out.println("Passes: 0");
+            System.out.println("Failures: 0");
+            return;
+        }
+
+        double average = calculateAverage(sum, count);
+        System.out.println("Sum of marks: " + sum);
+        System.out.println("Average mark: " + average);
+        System.out.println("Highest mark: " + highest);
+        System.out.println("Number of passes (>= 50): " + passes);
+        System.out.println("Number of failures (< 50): " + failures);
+    }
+}
